@@ -1,5 +1,6 @@
 const leagues = {
-    premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Chelsea","Crystal Palace","Everton","Fulham","Ipswich","Leicester","Liverpool","Man City","Man United","Newcastle","Nottingham","Southampton","Tottenham","West Ham","Wolves"],
+    // اصلاح لیست بر اساس تصاویر ارسالی شما
+    premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds United","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
     laliga: ["Alavés","Athletic Club","Atlético Madrid","Barcelona","Betis","Celta Vigo","Espanyol","Getafe","Girona","Las Palmas","Mallorca","Osasuna","Rayo Vallecano","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal","Leganés","Valladolid"],
     seriea: ["Atalanta","Bologna","Cagliari","Como","Empoli","Fiorentina","Frosinone","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Monza","Napoli","Roma","Salernitana","Sassuolo","Torino","Udinese"],
     bundesliga: ["Augsburg","Bayern","Bochum","Darmstadt","Dortmund","Eintracht","Freiburg","Heidenheim","Hoffenheim","Köln","Leipzig","Leverkusen","Mainz","Mönchengladbach","Stuttgart","Union Berlin","Werder Bremen","Wolfsburg"],
@@ -10,6 +11,12 @@ const container = document.getElementById("tables-container");
 const saveBtn = document.getElementById("save-btn");
 let currentLeague = "premier";
 let draggedItem = null;
+
+function getTeamLogoSrc(teamName) {
+    // منطق ساخت نام فایل لوگو (بدون فاصله، بدون پسوند اضافی)
+    const fileName = teamName.replace(/\s/g, ''); 
+    return `logos/${fileName}.png`;
+}
 
 function getSavedPredictions(league) {
     const data = localStorage.getItem(`predictions_${league}`);
@@ -74,7 +81,7 @@ function handleDrop(e) {
 function updateRanks() {
     const teamElements = container.querySelectorAll(".team-card");
     teamElements.forEach((card, index) => {
-        card.querySelector("span:first-child").textContent = index + 1;
+        card.querySelector(".rank-number").textContent = index + 1;
     });
 }
 
@@ -88,13 +95,16 @@ function loadLeague(league) {
     box.className = "table-box";
 
     teams.forEach((team, index) => {
+        const logoSrc = getTeamLogoSrc(team); 
+
         const card = document.createElement("div");
         card.className = "team-card " + league;
         card.draggable = true;
         card.dataset.team = team;
 
         card.innerHTML = `
-            <span>${index + 1}</span>
+            <span class="rank-number">${index + 1}</span>
+            <img src="${logoSrc}" alt="${team} Logo" class="team-logo" onerror="this.style.display='none'">
             <strong>${team}</strong>
             <span class="drag-handle">≡</span>
         `;
