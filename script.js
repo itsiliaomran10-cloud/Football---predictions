@@ -39,7 +39,6 @@ function handleDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     
-    //
     const box = container.querySelector(".table-box");
     const afterElement = getDragAfterElement(box, e.clientY);
     
@@ -68,7 +67,6 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-// 
 function handleDrop(e) {
     e.preventDefault();
 }
