@@ -1,5 +1,5 @@
 const leagues = {
-    // اصلاح لیست بر اساس تصاویر ارسالی شما
+    //
     premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds United","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
     laliga: ["Alavés","Athletic Club","Atlético Madrid","Barcelona","Betis","Celta Vigo","Espanyol","Getafe","Girona","Las Palmas","Mallorca","Osasuna","Rayo Vallecano","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal","Leganés","Valladolid"],
     seriea: ["Atalanta","Bologna","Cagliari","Como","Empoli","Fiorentina","Frosinone","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Monza","Napoli","Roma","Salernitana","Sassuolo","Torino","Udinese"],
@@ -13,7 +13,7 @@ let currentLeague = "premier";
 let draggedItem = null;
 
 function getTeamLogoSrc(teamName) {
-    // منطق ساخت نام فایل لوگو (بدون فاصله، بدون پسوند اضافی)
+    // 
     const fileName = teamName.replace(/\s/g, ''); 
     return `logos/${fileName}.png`;
 }
