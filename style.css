@@ -15,22 +15,22 @@ h1 {
 .tabs {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 6px; /* کاهش فاصله بین تب‌ها */
+    margin-bottom: 15px;
     flex-wrap: wrap;
     padding: 0 5px;
 }
 
 .tab-btn {
-    padding: 8px 15px;
+    padding: 7px 12px; /* فشرده‌سازی دکمه‌ها */
     border-radius: 6px;
     border: 2px solid transparent;
     background: #f8f9fa;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem; /* کوچک‌تر شدن فونت تب‌ها */
     transition: all 0.2s;
     flex-grow: 1;
-    max-width: 150px;
+    max-width: 120px;
 }
 
 .tab-btn:hover {
@@ -55,12 +55,12 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px;
-    margin-bottom: 4px;
+    padding: 10px; /* کاهش padding */
+    margin-bottom: 3px; /* کاهش margin */
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     transition: transform 0.2s, box-shadow 0.2s;
-    font-size: 1rem;
+    font-size: 0.95rem; /* کوچک شدن متن اصلی */
     font-weight: 600;
     color: black;
     border: none;
@@ -80,23 +80,23 @@ h1 {
 
 .drag-handle {
     cursor: grab;
-    font-size: 1.5rem;
+    font-size: 1.4rem; /* کمی کوچک‌تر شد */
     color: #6c757d;
 }
 
 .rank-number {
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* کاهش فونت رتبه */
     font-weight: 900;
-    width: 30px;
+    width: 25px; /* کاهش عرض */
     text-align: center;
-    margin-right: 15px; 
+    margin-right: 10px; /* کاهش فاصله */
 }
 
 /* Logo Styling */
 .team-logo {
-    width: 30px; 
-    height: 30px;
-    margin-right: 15px;
+    width: 25px; /* کاهش اندازه لوگو */
+    height: 25px;
+    margin-right: 10px; /* کاهش فاصله */
     object-fit: contain; 
     vertical-align: middle;
 }
@@ -112,6 +112,7 @@ h1 {
     max-width: 600px;
     width: 100%;
     box-sizing: border-box;
-    padding: 12px 15px;
-    font-size: 1rem;
+    padding: 10px 15px; /* کاهش padding */
+    font-size: 0.95rem;
+    margin-top: 15px !important;
 }
