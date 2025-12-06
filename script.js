@@ -15,7 +15,7 @@ let draggedItem = null;
 function getTeamLogoSrc(teamName) {
     // منطق ساخت نام فایل لوگو (حذف فاصله‌ها)
     const fileName = teamName.replace(/\s/g, ''); 
-    return `logos/${fileName}.png`;
+    return `Logos/${fileName}.png`;
 }
 
 function getSavedPredictions(league) {
