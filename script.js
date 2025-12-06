@@ -1,4 +1,5 @@
 const leagues = {
+    // لیست نهایی شده برای تطبیق با لوگوهای شما
     premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
     laliga: ["Alavés","Athletic Club","Atlético Madrid","Barcelona","Betis","Celta Vigo","Espanyol","Getafe","Girona","Las Palmas","Mallorca","Osasuna","Rayo Vallecano","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal","Leganés","Valladolid"],
     seriea: ["Atalanta","Bologna","Cagliari","Como","Empoli","Fiorentina","Frosinone","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Monza","Napoli","Roma","Salernitana","Sassuolo","Torino","Udinese"],
@@ -12,6 +13,7 @@ let currentLeague = "premier";
 let draggedItem = null;
 
 function getTeamLogoSrc(teamName) {
+    // منطق ساخت نام فایل لوگو (حذف فاصله‌ها)
     const fileName = teamName.replace(/\s/g, ''); 
     return `logos/${fileName}.png`;
 }
@@ -100,6 +102,7 @@ function loadLeague(league) {
         card.draggable = true;
         card.dataset.team = team;
 
+        // اینجا تگ <img> برای نمایش لوگو اضافه شده است
         card.innerHTML = `
             <span class="rank-number">${index + 1}</span>
             <img src="${logoSrc}" alt="${team} Logo" class="team-logo" onerror="this.style.display='none'">
