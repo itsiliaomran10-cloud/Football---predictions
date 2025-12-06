@@ -38,6 +38,20 @@ function handleDragEnd(e) {
 function handleDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
+    
+    //
+    const box = container.querySelector(".table-box");
+    const afterElement = getDragAfterElement(box, e.clientY);
+    
+    if (afterElement) {
+        if (afterElement.offsetTop > draggedItem.offsetTop) {
+            box.insertBefore(draggedItem, afterElement.nextSibling);
+        } else {
+            box.insertBefore(draggedItem, afterElement);
+        }
+    } else {
+        box.appendChild(draggedItem);
+    }
 }
 
 function getDragAfterElement(container, y) {
@@ -54,16 +68,9 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
+// 
 function handleDrop(e) {
     e.preventDefault();
-    const box = container.querySelector(".table-box");
-    const afterElement = getDragAfterElement(box, e.clientY);
-    
-    if (afterElement == null) {
-        box.appendChild(draggedItem);
-    } else {
-        box.insertBefore(draggedItem, afterElement);
-    }
 }
 
 function updateRanks() {
@@ -96,7 +103,6 @@ function loadLeague(league) {
         
         card.addEventListener("dragstart", handleDragStart);
         card.addEventListener("dragend", handleDragEnd);
-
         box.appendChild(card);
     });
     
