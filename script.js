@@ -40,21 +40,29 @@ function handleDragOver(e) {
     e.dataTransfer.dropEffect = "move";
 }
 
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.team-card:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
 function handleDrop(e) {
     e.preventDefault();
-    if (e.target.classList.contains("team-card") && draggedItem !== e.target) {
-        const targetElement = e.target;
-        const box = container.querySelector(".table-box");
-        
-        const after = draggedItem.offsetTop > targetElement.offsetTop;
-        
-        if (after) {
-            box.insertBefore(draggedItem, targetElement);
-        } else {
-            box.insertBefore(draggedItem, targetElement.nextSibling);
-        }
-    } else if (e.target.classList.contains("table-box")) {
-        e.target.appendChild(draggedItem);
+    const box = container.querySelector(".table-box");
+    const afterElement = getDragAfterElement(box, e.clientY);
+    
+    if (afterElement == null) {
+        box.appendChild(draggedItem);
+    } else {
+        box.insertBefore(draggedItem, afterElement);
     }
 }
 
@@ -88,8 +96,6 @@ function loadLeague(league) {
         
         card.addEventListener("dragstart", handleDragStart);
         card.addEventListener("dragend", handleDragEnd);
-        card.addEventListener("dragover", handleDragOver);
-        card.addEventListener("drop", handleDrop);
 
         box.appendChild(card);
     });
