@@ -7,26 +7,95 @@ const leagues = {
 };
 
 const container = document.getElementById("tables-container");
+const saveBtn = document.getElementById("save-btn");
+let currentLeague = "premier";
+let draggedItem = null;
+
+function getSavedPredictions(league) {
+    const data = localStorage.getItem(`predictions_${league}`);
+    return data ? JSON.parse(data) : leagues[league];
+}
+
+function savePredictions() {
+    const teamElements = Array.from(container.querySelectorAll(".team-card"));
+    const currentOrder = teamElements.map(card => card.dataset.team);
+    localStorage.setItem(`predictions_${currentLeague}`, JSON.stringify(currentOrder));
+    alert(`${currentLeague.toUpperCase()} prediction saved successfully!`);
+}
+
+function handleDragStart(e) {
+    draggedItem = e.target;
+    e.dataTransfer.effectAllowed = "move";
+    e.target.classList.add("dragging");
+}
+
+function handleDragEnd(e) {
+    e.target.classList.remove("dragging");
+    draggedItem = null;
+    updateRanks();
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    if (e.target.classList.contains("team-card") && draggedItem !== e.target) {
+        const targetElement = e.target;
+        const box = container.querySelector(".table-box");
+        
+        const after = draggedItem.offsetTop > targetElement.offsetTop;
+        
+        if (after) {
+            box.insertBefore(draggedItem, targetElement);
+        } else {
+            box.insertBefore(draggedItem, targetElement.nextSibling);
+        }
+    } else if (e.target.classList.contains("table-box")) {
+        e.target.appendChild(draggedItem);
+    }
+}
+
+function updateRanks() {
+    const teamElements = container.querySelectorAll(".team-card");
+    teamElements.forEach((card, index) => {
+        card.querySelector("span:first-child").textContent = index + 1;
+    });
+}
 
 function loadLeague(league) {
+    currentLeague = league;
     container.innerHTML = "";
+    
+    const teams = getSavedPredictions(league);
 
     const box = document.createElement("div");
     box.className = "table-box";
 
-    leagues[league].forEach((team, index) => {
+    teams.forEach((team, index) => {
         const card = document.createElement("div");
         card.className = "team-card " + league;
         card.draggable = true;
+        card.dataset.team = team;
 
         card.innerHTML = `
             <span>${index + 1}</span>
             <strong>${team}</strong>
             <span class="drag-handle">≡</span>
         `;
+        
+        card.addEventListener("dragstart", handleDragStart);
+        card.addEventListener("dragend", handleDragEnd);
+        card.addEventListener("dragover", handleDragOver);
+        card.addEventListener("drop", handleDrop);
 
         box.appendChild(card);
     });
+    
+    box.addEventListener("dragover", handleDragOver);
+    box.addEventListener("drop", handleDrop);
 
     container.appendChild(box);
 }
@@ -38,5 +107,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
         loadLeague(btn.dataset.league);
     });
 });
+
+saveBtn.addEventListener("click", savePredictions);
 
 loadLeague("premier");
