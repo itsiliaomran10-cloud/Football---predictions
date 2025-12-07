@@ -37,7 +37,7 @@ function savePredictions() {
     const predictorName = document.getElementById('predictor-name').value.trim();
     
     if (!predictorName) {
-        alert("name:iliaomran");
+        alert("Please.enter.your.name");
         return;
     }
 
