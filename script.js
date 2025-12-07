@@ -5,7 +5,7 @@ const leagues = {
     
     seriea: ["Atalanta","Bologna","Cagliari","Como","Sassuolo","Fiorentina","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Pisa","Napoli","Cremonese","Roma","Torino","Udinese","Parma","Hellas Verona"],
     
-    bundesliga: ["Augsburg","Bayern","Dortmund","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","St. Pauli","Union Berlin","Werder Bremen","Wolfsburg","HSV"], // 17 teams now
+    bundesliga: ["Augsburg","Bayern","Dortmund","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Köln","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","St. Pauli","Union Berlin","Werder Bremen","Wolfsburg","HSV"], // 17 teams now
     
     ligue1: ["Angers","Auxerre","Brest","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "Toulouse", "Strasbourg"], // 18 teams
 };
