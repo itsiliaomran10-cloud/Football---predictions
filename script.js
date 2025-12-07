@@ -1,18 +1,13 @@
 const leagues = {
-    // لیست نهایی شده Premier League بر اساس لوگوهای شما
     premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
     
-    //
     laliga: ["Alavés","Athletic Club","Atlético Madrid","Barcelona","Betis","Celta Vigo","Getafe","Girona","Levante","Oviedo","Elche","Mallorca","Osasuna","Rayo Vallecano","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal","Espanyol"],
     
-    // لیست نهایی شده Serie A (با جایگزینی Sassuolo، Pisa، Cremonese)
     seriea: ["Atalanta","Bologna","Cagliari","Como","Sassuolo","Fiorentina","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Pisa","Napoli","Cremonese","Roma","Torino","Udinese","Parma","Hellas Verona"],
     
-    //
-    bundesliga: ["Augsburg","Bayern","HSV","Dortmund","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","St. Pauli","Union Berlin","Werder Bremen","Wolfsburg"],
+    bundesliga: ["Augsburg","Bayern","Dortmund","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","St. Pauli","Union Berlin","Werder Bremen","Wolfsburg","HSV"], // 17 teams now
     
-    // لیست نهایی شده Ligue 1 (با جایگزینی Paris، Metz، St Etienne)
-    ligue1: ["Angers","Auxerre","Brest","Clermont","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "St Etienne"],
+    ligue1: ["Angers","Auxerre","Brest","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "Toulouse", "Strasbourg"], // 18 teams
 };
 
 const container = document.getElementById("tables-container");
@@ -21,7 +16,6 @@ let resetBtn;
 let currentLeague = "premier";
 let draggedItem = null;
 
-// تابع برای ساخت آدرس لوگو (Logos/ با L بزرگ)
 function getTeamLogoSrc(teamName) {
     const fileName = teamName.replace(/\s/g, ''); 
     return `Logos/${fileName}.png`; 
@@ -102,23 +96,23 @@ function updateRanks() {
         
         card.classList.remove('rank-champions', 'rank-europa', 'rank-relegation');
 
-        // منطق رنگ‌بندی برای لیگ‌های 20 تیمی (Premier League, Serie A, La Liga)
+        // Logic for 20-team leagues (Premier League, Serie A, La Liga)
         if (leagues[currentLeague].length === 20) {
             if (rank <= 4) {
-                card.classList.add('rank-champions'); // سهمیه لیگ قهرمانان
+                card.classList.add('rank-champions');
             } else if (rank === 5) {
-                card.classList.add('rank-europa'); // سهمیه لیگ اروپا
+                card.classList.add('rank-europa');
             } else if (rank >= 18) {
-                card.classList.add('rank-relegation'); // منطقه سقوط
+                card.classList.add('rank-relegation');
             }
         } 
-        // منطق رنگ‌بندی برای لیگ‌های 18 تیمی (Bundesliga, Ligue 1)
+        // Logic for 18-team leagues (Bundesliga, Ligue 1)
         else if (leagues[currentLeague].length === 18) {
             if (rank <= 4) {
                 card.classList.add('rank-champions'); 
             } else if (rank === 5) {
                 card.classList.add('rank-europa'); 
-            } else if (rank >= 16) { // 16, 17, 18 برای سقوط و پلی‌آف
+            } else if (rank >= 16) { 
                  card.classList.add('rank-relegation'); 
             }
         }
@@ -183,4 +177,3 @@ document.addEventListener('DOMContentLoaded', () => {
     
     loadLeague("premier");
 });
-
