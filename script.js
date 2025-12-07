@@ -34,11 +34,37 @@ function resetPredictions() {
 }
 
 function savePredictions() {
+    const predictorName = document.getElementById('predictor-name').value.trim();
+
+    if (!predictorName) {
+        alert("@iliaomran10");
+        return;
+    }
+
     const teamElements = Array.from(container.querySelectorAll(".team-card"));
     const currentOrder = teamElements.map(card => card.dataset.team);
+
+    // Local storage 
     localStorage.setItem(`predictions_${currentLeague}`, JSON.stringify(currentOrder));
-    alert(`${currentLeague.toUpperCase()} prediction saved successfully!`);
+
+    // Send data to Firebase (using globally exposed functions)
+    const predictionData = {
+        name: predictorName,
+        league: currentLeague,
+        order: currentOrder,
+        timestamp: window.serverTimestamp()
+    };
+
+    window.addDoc(window.collection(window.db, "predictions"), predictionData)
+        .then(() => {
+            alert(`پیش‌بینی ${predictorName} برای ${currentLeague.toUpperCase()} با موفقیت ثبت شد!`);
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+            alert();
+        });
 }
+
 
 function handleDragStart(e) {
     draggedItem = e.target;
