@@ -1,138 +1,74 @@
-// Global Variables for Leagues and Teams (Original Team Names)
-let currentLeague = 'premier';
-const teamData = {
-    premier: ["Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", "Burnley", "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town", "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest", "Sheffield United", "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"],
-    laliga: ["Alavés", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Cádiz", "Celta Vigo", "Getafe", "Girona", "Granada", "Las Palmas", "Mallorca", "Osasuna", "Rayo Vallecano", "Real Madrid", "Real Sociedad", "Sevilla", "Valencia", "Villarreal", "Real Betis", "Eibar"],
-    seriea: ["Atalanta", "Bologna", "Cagliari", "Empoli", "Fiorentina", "Frosinone", "Genoa", "Inter Milan", "Juventus", "Lazio", "Lecce", "AC Milan", "Monza", "Napoli", "Roma", "Salernitana", "Sassuolo", "Torino", "Udinese", "Verona"],
-    bundesliga: ["Augsburg", "Bayern Munich", "Bochum", "Borussia Dortmund", "Eintracht Frankfurt", "Freiburg", "Heidenheim", "Hoffenheim", "Köln", "Leipzig", "Bayer Leverkusen", "Mainz 05", "Borussia Mönchengladbach", "RB Leipzig", "Stuttgart", "Werder Bremen", "Union Berlin", "Wolfsburg"],
-    ligue1: ["Brest", "Clermont Foot", "Le Havre", "Lille", "Lorient", "Lyon", "Marseille", "Montpellier", "Nantes", "Nice", "Monaco", "Paris Saint-Germain", "Strasbourg", "Rennes", "Reims", "Saint-Étienne", "Toulouse", "Metz"]
+const leagues = {
+    premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
+    
+    laliga: ["Alavés","Athletic Club","Atlético Madrid","Barcelona","Betis","Celta Vigo","Getafe","Girona","Levante","Oviedo","Elche","Mallorca","Osasuna","Rayo Vallecano","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal","Espanyol"],
+    
+    seriea: ["Atalanta","Bologna","Cagliari","Como","Sassuolo","Fiorentina","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Pisa","Napoli","Cremonese","Roma","Torino","Udinese","Parma","Hellas Verona"],
+    
+    bundesliga: ["Augsburg","Bayern","Dortmund"," Frankfurt","Freiburg","Heidenheim","Hoffenheim","Köln","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","StPauli","Union Berlin","Werder Bremen","Wolfsburg","HSV"], 
+    
+    ligue1: ["Angers","Auxerre","Brest","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "Toulouse", "Strasbourg"], 
 };
 
-// --- Initialization of DOM elements ---
-const container = document.getElementById('tables-container');
-const tabButtons = document.querySelectorAll('.tab-btn');
-const saveBtn = document.getElementById('save-btn');
-const resetBtn = document.getElementById('reset-btn');
+const container = document.getElementById("tables-container");
+const saveBtn = document.getElementById("save-btn");
+let resetBtn; 
+let currentLeague = "premier";
+let draggedItem = null;
 
-// --- Core Functionality ---
+function getTeamLogoSrc(teamName) {
+    const fileName = teamName.replace(/\s/g, ''); 
+    return `Logos/${fileName}.png`; 
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadLeague(currentLeague);
-});
-
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        currentLeague = button.dataset.league;
-        loadLeague(currentLeague);
-    });
-});
-
-saveBtn.addEventListener('click', savePredictions);
-resetBtn.addEventListener('click', resetPredictions);
-
-// --- Initialization and Rendering ---
-
-function loadLeague(league) {
-    container.innerHTML = '';
-    const teams = teamData[league];
-    const savedOrder = localStorage.getItem(`predictions_${league}`);
-    let orderedTeams = teams;
-
-    if (savedOrder) {
-        const parsedOrder = JSON.parse(savedOrder);
-        const validSavedOrder = parsedOrder.filter(team => teams.includes(team));
-        const newTeams = teams.filter(team => !validSavedOrder.includes(team));
-        orderedTeams = [...validSavedOrder, ...newTeams];
-    }
-
-    orderedTeams.forEach(team => {
-        const card = document.createElement('div');
-        card.className = 'team-card';
-        card.draggable = true;
-        card.dataset.team = team; 
-        card.innerHTML = `<span class="team-name">${team}</span>`;
-        container.appendChild(card);
-    });
+function getSavedPredictions(league) {
+    const data = localStorage.getItem(`predictions_${league}`);
+    return data ? JSON.parse(data) : leagues[league];
 }
 
 function resetPredictions() {
-    if (confirm("Are you sure you want to reset the " + currentLeague.toUpperCase() + " predictions?")) {
+    if (confirm(`Are you sure you want to reset the ${currentLeague.toUpperCase()} predictions?`)) {
         localStorage.removeItem(`predictions_${currentLeague}`);
-        loadLeague(currentLeague);
+        loadLeague(currentLeague); 
     }
 }
-
-// --- Firebase Save Function ---
 
 function savePredictions() {
-    const predictorName = document.getElementById('predictor-name').value.trim();
-
-    if (!predictorName) {
-        alert("لطفاً نام یا آیدی اینستاگرام خود را وارد کنید.");
-        return;
-    }
-
     const teamElements = Array.from(container.querySelectorAll(".team-card"));
     const currentOrder = teamElements.map(card => card.dataset.team);
-
     localStorage.setItem(`predictions_${currentLeague}`, JSON.stringify(currentOrder));
-
-    const predictionData = {
-        name: predictorName,
-        league: currentLeague,
-        order: currentOrder,
-        timestamp: window.serverTimestamp()
-    };
-
-    window.addDoc(window.collection(window.db, "predictions"), predictionData)
-        .then(() => {
-            alert(`پیش‌بینی ${predictorName} برای ${currentLeague.toUpperCase()} با موفقیت ثبت شد!`);
-        })
-        .catch((error) => {
-            console.error("Error writing document: ", error);
-            alert("خطا در ثبت پیش‌بینی. لطفاً دوباره تلاش کنید.");
-        });
+    alert(`${currentLeague.toUpperCase()} prediction saved successfully!`);
 }
 
-// --- Drag and Drop Logic (Stable Version) ---
+function handleDragStart(e) {
+    draggedItem = e.target;
+    e.dataTransfer.effectAllowed = "move";
+    e.target.classList.add("dragging");
+}
 
-container.addEventListener('dragstart', (e) => {
-    if (e.target.classList.contains('team-card')) {
-        e.target.classList.add('dragging');
-        
-        const nameInput = document.getElementById('predictor-name');
-        if (nameInput) {
-            nameInput.blur();
+function handleDragEnd(e) {
+    e.target.classList.remove("dragging");
+    draggedItem = null;
+    updateRanks();
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    
+    const box = container.querySelector(".table-box");
+    const afterElement = getDragAfterElement(box, e.clientY);
+    
+    if (afterElement) {
+        if (afterElement.offsetTop > draggedItem.offsetTop) {
+            box.insertBefore(draggedItem, afterElement.nextSibling);
+        } else {
+            box.insertBefore(draggedItem, afterElement);
         }
-
-        e.dataTransfer.setData('text/plain', e.target.dataset.team);
-    }
-});
-
-container.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    const draggingCard = document.querySelector('.dragging');
-    if (!draggingCard) return;
-
-    const afterElement = getDragAfterElement(container, e.clientY);
-
-    if (afterElement == null) {
-        container.appendChild(draggingCard);
     } else {
-        container.insertBefore(draggingCard, afterElement);
+        box.appendChild(draggedItem);
     }
-});
-
-container.addEventListener('drop', (e) => {
-    e.preventDefault();
-    savePredictions(); 
-});
-
-container.addEventListener('dragend', (e) => {
-    e.target.classList.remove('dragging');
-});
+}
 
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll('.team-card:not(.dragging)')];
@@ -147,3 +83,106 @@ function getDragAfterElement(container, y) {
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
+
+function handleDrop(e) {
+    e.preventDefault();
+}
+
+function updateRanks() {
+    const teamElements = container.querySelectorAll(".team-card");
+    teamElements.forEach((card, index) => {
+        const rank = index + 1;
+        card.querySelector(".rank-number").textContent = rank;
+        
+        const rankNumberSpan = card.querySelector(".rank-number");
+        const medalIconSpan = card.querySelector(".medal-icon");
+
+        rankNumberSpan.classList.remove('rank-champions-dark-border', 'rank-europa-light-border', 'rank-relegation-dark-border');
+        medalIconSpan.innerHTML = "";
+        
+        const leagueLength = leagues[currentLeague].length;
+        
+        if (rank === 1) {
+            medalIconSpan.innerHTML = '🥇'; 
+        }
+
+        if (leagueLength === 20) {
+            if (rank <= 4) {
+                rankNumberSpan.classList.add('rank-champions-dark-border');
+            } else if (rank === 5) {
+                rankNumberSpan.classList.add('rank-europa-light-border');
+            } else if (rank >= 18) {
+                rankNumberSpan.classList.add('rank-relegation-dark-border');
+            }
+        } 
+        else if (leagueLength === 18) {
+            if (rank <= 4) {
+                rankNumberSpan.classList.add('rank-champions-dark-border'); 
+            } else if (rank === 5) {
+                rankNumberSpan.classList.add('rank-europa-light-border'); 
+            } else if (rank >= 16) { 
+                 rankNumberSpan.classList.add('rank-relegation-dark-border'); 
+            }
+        }
+    });
+}
+
+
+function loadLeague(league) {
+    currentLeague = league;
+    container.innerHTML = "";
+    
+    const teams = getSavedPredictions(league);
+
+    const box = document.createElement("div");
+    box.className = "table-box";
+
+    teams.forEach((team, index) => {
+        const logoSrc = getTeamLogoSrc(team); 
+
+        const card = document.createElement("div");
+        card.className = "team-card " + league;
+        card.draggable = true;
+        card.dataset.team = team;
+
+        card.innerHTML = `
+            <span class="rank-number">${index + 1}</span>
+            <img src="${logoSrc}" alt="${team} Logo" class="team-logo" onerror="this.style.display='none'">
+            <span class="medal-icon"></span> 
+            <strong>${team}</strong>
+            <span class="drag-handle">≡</span>
+        `;
+        
+        card.addEventListener("dragstart", handleDragStart);
+        card.addEventListener("dragend", handleDragEnd);
+        box.appendChild(card);
+    });
+    
+    box.addEventListener("dragover", handleDragOver);
+    box.addEventListener("drop", handleDrop);
+
+    container.appendChild(box);
+    updateRanks(); 
+}
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelector(".tab-btn.active").classList.remove("active");
+        btn.classList.add("active");
+        loadLeague(btn.dataset.league);
+    });
+});
+
+if (saveBtn) {
+    saveBtn.addEventListener("click", savePredictions);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    resetBtn = document.getElementById('reset-btn');
+    
+    if (resetBtn) {
+        resetBtn.addEventListener('click', resetPredictions);
+    }
+    
+    loadLeague("premier");
+});
