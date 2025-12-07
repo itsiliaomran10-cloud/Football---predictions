@@ -5,6 +5,15 @@ body {
     margin: 0;
 }
 
+/* Styling for 'IA' text added above H1 */
+.brand-ia {
+    text-align: center;
+    color: #6c757d; /* رنگ خاکستری ملایم */
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: -5px; /* نزدیک‌تر کردن به H1 */
+}
+
 h1 {
     text-align: center;
     color: #333;
@@ -74,7 +83,6 @@ h1 {
 .team-card strong {
     flex-grow: 1;
     text-align: left;
-    /* Removed default margin-left: 10px; from here to make medal closer */
 }
 
 /* Base Rank Number Styling for Circle */
@@ -83,21 +91,21 @@ h1 {
     font-weight: 900;
     width: 28px; 
     height: 28px; 
-    line-height: 25px; /* Adjust line-height to center text visually */
+    line-height: 25px; 
     text-align: center;
     margin-right: 10px; 
-    border-radius: 50%; /* Perfect circle */
+    border-radius: 50%; 
     border: 3px solid transparent; 
     transition: all 0.2s;
     box-sizing: border-box;
     flex-shrink: 0; 
 }
 
-/* Medal Icon Style (Rank 1) - Corrected spacing */
+/* Medal Icon Style (Rank 1) - Closer to team name */
 .medal-icon {
     font-size: 1.2rem; 
-    margin-right: 10px; /* Space between medal and drag handle */
-    margin-left: 5px; /* Closer to team name (strong tag) */
+    margin-right: 10px; 
+    margin-left: 5px; 
     line-height: 1;
     flex-shrink: 0;
 }
@@ -131,21 +139,21 @@ h1 {
 
 /* 1-4: Dark Green */
 .rank-number.rank-champions-dark-border {
-    border-color: #006400; /* Dark Green */
+    border-color: #006400; 
     background-color: #fff;
     color: #006400; 
 }
 
 /* 5: Light Green */
 .rank-number.rank-europa-light-border {
-    border-color: #90ee90; /* Light Green */
+    border-color: #90ee90; 
     background-color: #fff;
-    color: #000; /* Black text for contrast */
+    color: #000; 
 }
 
 /* Relegation (Last 3): Very Dark Red */
 .rank-number.rank-relegation-dark-border {
-    border-color: #8b0000; /* Very Dark Red */
+    border-color: #8b0000; 
     background-color: #fff;
     color: #8b0000;
 }
