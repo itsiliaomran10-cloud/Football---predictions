@@ -5,9 +5,9 @@ const leagues = {
     
     seriea: ["Atalanta","Bologna","Cagliari","Como","Sassuolo","Fiorentina","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Pisa","Napoli","Cremonese","Roma","Torino","Udinese","Parma","Hellas Verona"],
     
-    bundesliga: ["Augsburg","Bayern","Dortmund"," Frankfurt","Freiburg","Heidenheim","Hoffenheim","Köln","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","StPauli","Union Berlin","Werder Bremen","Wolfsburg","HSV"], // 
+    bundesliga: ["Augsburg","Bayern","Dortmund"," Frankfurt","Freiburg","Heidenheim","Hoffenheim","Köln","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","StPauli","Union Berlin","Werder Bremen","Wolfsburg","HSV"], 
     
-    ligue1: ["Angers","Auxerre","Brest","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "Toulouse", "Strasbourg"], //
+    ligue1: ["Angers","Auxerre","Brest","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "Toulouse", "Strasbourg"], 
 };
 
 const container = document.getElementById("tables-container");
@@ -94,26 +94,34 @@ function updateRanks() {
         const rank = index + 1;
         card.querySelector(".rank-number").textContent = rank;
         
-        card.classList.remove('rank-champions', 'rank-europa', 'rank-relegation');
+        const rankNumberSpan = card.querySelector(".rank-number");
+        const medalIconSpan = card.querySelector(".medal-icon");
 
-        // Logic for 20-team leagues (Premier League, Serie A, La Liga)
-        if (leagues[currentLeague].length === 20) {
+        rankNumberSpan.classList.remove('rank-champions-border', 'rank-europa-border', 'rank-relegation-border');
+        medalIconSpan.innerHTML = "";
+        
+        const leagueLength = leagues[currentLeague].length;
+        
+        if (rank === 1) {
+            medalIconSpan.innerHTML = '🥇'; 
+        }
+
+        if (leagueLength === 20) {
             if (rank <= 4) {
-                card.classList.add('rank-champions');
+                rankNumberSpan.classList.add('rank-champions-border');
             } else if (rank === 5) {
-                card.classList.add('rank-europa');
-            } else if (rank >= 18) {
-                card.classList.add('rank-relegation');
+                rankNumberSpan.classList.add('rank-europa-border');
+            } else if (rank >= 18) { 
+                rankNumberSpan.classList.add('rank-relegation-border');
             }
         } 
-        // Logic for 18-team leagues (Bundesliga, Ligue 1)
-        else if (leagues[currentLeague].length === 18) {
+        else if (leagueLength === 18) {
             if (rank <= 4) {
-                card.classList.add('rank-champions'); 
+                rankNumberSpan.classList.add('rank-champions-border'); 
             } else if (rank === 5) {
-                card.classList.add('rank-europa'); 
+                rankNumberSpan.classList.add('rank-europa-border'); 
             } else if (rank >= 16) { 
-                 card.classList.add('rank-relegation'); 
+                 rankNumberSpan.classList.add('rank-relegation-border'); 
             }
         }
     });
@@ -141,6 +149,7 @@ function loadLeague(league) {
             <span class="rank-number">${index + 1}</span>
             <img src="${logoSrc}" alt="${team} Logo" class="team-logo" onerror="this.style.display='none'">
             <strong>${team}</strong>
+            <span class="medal-icon"></span> 
             <span class="drag-handle">≡</span>
         `;
         
