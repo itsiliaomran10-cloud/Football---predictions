@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>League Predictions</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
+    <div class="header-branding">
+        <p class="brand-ia">IA</p>
+        <a href="https://www.instagram.com/iliaomran10" target="_blank" class="instagram-icon">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+    
     <h1>League Predictions</h1>
 
     <div class="tabs">
@@ -19,10 +27,42 @@
 
     <div id="tables-container"></div>
     
+    <div class="name-input-container">
+        <input type="text" id="predictor-name" placeholder="نام یا آیدی اینستاگرام خود را وارد کنید" required>
+    </div>
+    
     <button id="reset-btn" style="margin: 10px auto; display: block; padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">Reset Prediction</button>
     
-    <button id="save-btn" style="margin: 20px auto 30px; display: block; padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">Save Prediction</button>
+    <button id="save-btn" style="margin: 20px auto 10px; display: block; padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">Save Prediction</button>
+    
+    <div class="instagram-text-link-container">
+        <a href="https://www.instagram.com/iliaomran10" target="_blank" class="instagram-text-link">
+            Follow me on Instagram: @iliaomran10
+        </a>
+    </div>
 
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+      const firebaseConfig = {
+          apiKey: "AIzaSyABu613k8dIDsiq0LGgyYdPNi7QccpCzF4", 
+          authDomain: "football-predictions-61611.firebaseapp.com",
+          projectId: "football-predictions-61611",
+          storageBucket: "football-predictions-61611.appspot.com",
+          messagingSenderId: "675809072768",
+          appId: "1:675809072768:web:70ef75dfebd0288b073865" // measurementId "G-WP6ZYRSSL2" حذف شد
+      };
+
+      const app = initializeApp(firebaseConfig);
+      
+      // توابع فایربیس برای استفاده در script.js
+      window.db = getFirestore(app);
+      window.addDoc = addDoc;
+      window.collection = collection;
+      window.serverTimestamp = serverTimestamp;
+
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
