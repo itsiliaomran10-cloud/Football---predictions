@@ -5,56 +5,6 @@ body {
     margin: 0;
 }
 
-/* ظرف نگهدارنده برای IA و اینستاگرام (بالای صفحه) */
-.header-branding {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 5px;
-}
-
-/* Styling for 'IA' text */
-.brand-ia {
-    color: #6c757d; 
-    font-size: 1.1rem;
-    font-weight: 500;
-    margin: 0;
-    line-height: 1;
-}
-
-/* Styling for Instagram Icon (بالای صفحه) */
-.instagram-icon {
-    font-size: 1.5rem;
-    color: #e4405f; 
-    text-decoration: none;
-    transition: transform 0.2s;
-}
-
-.instagram-icon:hover {
-    transform: scale(1.1);
-}
-
-/* استایل‌های جدید برای لینک متنی پایین صفحه */
-.instagram-text-link-container {
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 30px; /* فضای کافی در پایین صفحه */
-    padding: 0 10px;
-}
-
-.instagram-text-link {
-    color: #007bff; /* رنگ لینک آبی */
-    font-size: 0.9rem;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.instagram-text-link:hover {
-    text-decoration: underline;
-}
-/* پایان استایل‌های جدید */
-
 h1 {
     text-align: center;
     color: #333;
@@ -137,6 +87,7 @@ h1 {
     margin-right: 10px; 
     border-radius: 50%; 
     border: 3px solid transparent; 
+    transition: all 0.2s;
     box-sizing: border-box;
     flex-shrink: 0; 
 }
@@ -219,28 +170,4 @@ h1 {
     box-sizing: border-box;
     padding: 10px 15px;
     font-size: 0.95rem;
-}
-/* Styling for the Name Input Field */
-.name-input-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto 10px;
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-#predictor-name {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-    text-align: center; 
-}
-
-#predictor-name:focus {
-    border-color: #007bff;
-    outline: none;
 }
