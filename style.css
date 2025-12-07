@@ -84,12 +84,26 @@ h1 {
     color: #6c757d;
 }
 
+/* Base Rank Number Styling for Circle */
 .rank-number {
     font-size: 1.1rem;
     font-weight: 900;
-    width: 25px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
     text-align: center;
     margin-right: 10px; 
+    border-radius: 50%;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+/* Medal Icon Style (Rank 1) */
+.medal-icon {
+    font-size: 1.2rem; 
+    margin-left: 5px;
+    line-height: 1;
 }
 
 /* Logo Styling */
@@ -101,28 +115,42 @@ h1 {
     vertical-align: middle;
 }
 
-/* League colors */
+/* League colors - Bundesliga adjusted (Lighter Red) */
 .laliga { background: #ffa500; color: black; } 
 .premier { background: white; color: black; border: 1px solid #ddd; }
 .seriea { background: #87ceeb; color: black; } 
-.bundesliga { background: #b30000; color: white; } 
+.bundesliga { background: #e30214; color: white; } /* Lighter Red */
 .ligue1 { background: #000; color: white; }
 
 
-/* --- Rank Highlighting Classes --- */
-.rank-champions {
-    background-color: #d4edda !important;
-    border-left: 5px solid #28a745 !important;
+/* --- Rank Number Border Highlighting --- */
+
+/* Champions League Border (Dark Green) */
+.rank-number.rank-champions-border {
+    border-color: #155724;
+    background-color: #fff;
+    color: #155724; 
 }
 
-.rank-europa {
-    background-color: #cce5ff !important;
-    border-left: 5px solid #007bff !important;
+/* Europa League Border (Dark Blue) */
+.rank-number.rank-europa-border {
+    border-color: #004085;
+    background-color: #fff;
+    color: #004085;
 }
 
-.rank-relegation {
-    background-color: #f8d7da !important;
-    border-left: 5px solid #dc3545 !important;
+/* Relegation Border (Very Dark Red) */
+.rank-number.rank-relegation-border {
+    border-color: #721c24;
+    background-color: #fff;
+    color: #721c24;
+}
+
+/* --- Old Full Card Highlighting Cleanup --- */
+/* (Ensures previous full-card colors are removed if they were still active) */
+.team-card.rank-champions, .team-card.rank-europa, .team-card.rank-relegation {
+    background-color: initial !important;
+    border-left: none !important;
 }
 
 #save-btn {
