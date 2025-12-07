@@ -26,7 +26,9 @@
     </div>
 
     <div id="tables-container"></div>
-    
+    <div class="name-input-container">
+        <input type="text" id="predictor-name" placeholder="@iliaomran10" required>
+     </div>
     <button id="reset-btn" style="margin: 10px auto; display: block; padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer;">Reset Prediction</button>
     
     <button id="save-btn" style="margin: 20px auto 10px; display: block; padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer;">Save Prediction</button>
@@ -37,6 +39,23 @@
         </a>
     </div>
 
-    <script src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
+const firebaseConfig = {
+    apiKey: "AIzaSyABu613k8dIDsiq0LggYdPdNi7QccpCzf4",
+    authDomain: "football-predictions-61611.firebaseapp.com",
+    projectId: "football-predictions-61611",
+    storageBucket: "football-predictions-61611.firebasestorage.app",
+    messagingSenderId: "675809072768",
+    appId: "1:675809072768:web:70ef75dfebd0288b073865",
+    measurementId: "G-WP6ZVRSSL2"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+<script src="script.js"></script>
 </body>
 </html>
