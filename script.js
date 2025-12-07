@@ -2,7 +2,7 @@ const leagues = {
     // لیست نهایی شده Premier League بر اساس لوگوهای شما
     premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
     
-    // لیست نهایی شده La Liga (با جایگزینی Levante، Oviedo، Elche)
+    //
     laliga: ["Alavés","Athletic Club","Atlético Madrid","Barcelona","Betis","Celta Vigo","Getafe","Girona","Levante","Oviedo","Elche","Mallorca","Osasuna","Rayo Vallecano","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal","Espanyol"],
     
     // لیست نهایی شده Serie A (با جایگزینی Sassuolo، Pisa، Cremonese)
