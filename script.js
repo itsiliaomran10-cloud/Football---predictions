@@ -1,3 +1,8 @@
+let isDragging = false;
+let scrollInterval = null;
+const scrollSpeed = 15;
+const scrollThreshold = 100; 
+
 const leagues = {
     premier: ["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds","Liverpool","Man City","Man United","Newcastle","Nottingham Forest","Sunderland","Tottenham","West Ham","Wolves"],
     
@@ -64,37 +69,79 @@ function savePredictions() {
             alert();
         });
 }
-
-
-function handleDragStart(e) {
-    draggedItem = e.target;
-    e.dataTransfer.effectAllowed = "move";
-    e.target.classList.add("dragging");
-}
-
-function handleDragEnd(e) {
-    e.target.classList.remove("dragging");
-    draggedItem = null;
-    updateRanks();
-}
-
-function handleDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-    
-    const box = container.querySelector(".table-box");
-    const afterElement = getDragAfterElement(box, e.clientY);
-    
-    if (afterElement) {
-        if (afterElement.offsetTop > draggedItem.offsetTop) {
-            box.insertBefore(draggedItem, afterElement.nextSibling);
-        } else {
-            box.insertBefore(draggedItem, afterElement);
+container.addEventListener('dragstart', (e) => {
+    if (e.target.classList.contains('team-card')) {
+        isDragging = true;
+        e.target.classList.add('dragging');
+        
+        const nameInput = document.getElementById('predictor-name');
+        if (nameInput) {
+            nameInput.blur();
         }
-    } else {
-        box.appendChild(draggedItem);
+
+        e.dataTransfer.setData('text/plain', e.target.dataset.team);
     }
-}
+});
+
+
+container.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    if (!isDragging) return;
+
+    // Auto-Scroll Logic
+    const mouseY = e.clientY;
+    const windowHeight = window.innerHeight;
+
+    if (mouseY > scrollThreshold && mouseY < windowHeight - scrollThreshold) {
+        if (scrollInterval !== null) {
+            clearInterval(scrollInterval);
+            scrollInterval = null;
+        }
+    } 
+    else if (mouseY < scrollThreshold) {
+        if (scrollInterval === null) {
+            scrollInterval = setInterval(() => {
+                window.scrollBy(0, -scrollSpeed);
+            }, 30);
+        }
+    } 
+    else if (mouseY > windowHeight - scrollThreshold) {
+        if (scrollInterval === null) {
+            scrollInterval = setInterval(() => {
+                window.scrollBy(0, scrollSpeed);
+            }, 30);
+        }
+    }
+    
+    // Card rearrangement logic
+    const draggingCard = document.querySelector('.dragging');
+    const afterElement = getDragAfterElement(container, e.clientY);
+
+    if (afterElement == null) {
+        container.appendChild(draggingCard);
+    } else {
+        container.insertBefore(draggingCard, afterElement);
+    }
+});
+
+
+container.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (!isDragging) return;
+    
+    savePredictions(); 
+});
+
+
+container.addEventListener('dragend', (e) => {
+    isDragging = false;
+    e.target.classList.remove('dragging');
+
+    if (scrollInterval !== null) {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
+    }
+});
 
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll('.team-card:not(.dragging)')];
@@ -108,6 +155,8 @@ function getDragAfterElement(container, y) {
             return closest;
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
 }
 
 function handleDrop(e) {
