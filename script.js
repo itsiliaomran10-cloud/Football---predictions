@@ -33,17 +33,50 @@ function resetPredictions() {
     }
 }
 
+// ✅ تابع savePredictions برای ذخیره در Local Storage و Firebase
 function savePredictions() {
+    const predictorName = document.getElementById('predictor-name').value.trim();
+    
+    if (!predictorName) {
+        alert("لطفاً نام یا آیدی اینستاگرام خود را وارد کنید.");
+        return;
+    }
+
     const teamElements = Array.from(container.querySelectorAll(".team-card"));
     const currentOrder = teamElements.map(card => card.dataset.team);
+    
+    // Local Storage Save
     localStorage.setItem(`predictions_${currentLeague}`, JSON.stringify(currentOrder));
-    alert(`${currentLeague.toUpperCase()} prediction saved successfully!`);
+
+    // Firebase Save (با فرض اینکه window.db و توابع آن در index.html تعریف شده‌اند)
+    const predictionData = {
+        name: predictorName,
+        league: currentLeague,
+        order: currentOrder,
+        timestamp: window.serverTimestamp() 
+    };
+
+    window.addDoc(window.collection(window.db, "predictions"), predictionData)
+        .then(() => {
+            alert(`پیش‌بینی ${predictorName} برای ${currentLeague.toUpperCase()} با موفقیت ثبت شد!`);
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+            alert("خطا در ثبت پیش‌بینی. لطفاً دوباره تلاش کنید.");
+        });
 }
 
+// ✅ رفع پرش صفحه با اضافه کردن nameInput.blur()
 function handleDragStart(e) {
     draggedItem = e.target;
     e.dataTransfer.effectAllowed = "move";
     e.target.classList.add("dragging");
+    
+    // ✅ FIX: حذف فوکوس از فیلد نام
+    const nameInput = document.getElementById('predictor-name');
+    if (nameInput) {
+        nameInput.blur(); 
+    }
 }
 
 function handleDragEnd(e) {
@@ -52,24 +85,25 @@ function handleDragEnd(e) {
     updateRanks();
 }
 
+// ✅ منطق DragOver ساده و پایدار (برخلاف نسخه‌ای که مشکل ایجاد کرد)
 function handleDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     
     const box = container.querySelector(".table-box");
+    const draggingCard = document.querySelector('.dragging');
+    if (!draggingCard) return;
+
     const afterElement = getDragAfterElement(box, e.clientY);
     
-    if (afterElement) {
-        if (afterElement.offsetTop > draggedItem.offsetTop) {
-            box.insertBefore(draggedItem, afterElement.nextSibling);
-        } else {
-            box.insertBefore(draggedItem, afterElement);
-        }
+    if (afterElement == null) {
+        box.appendChild(draggingCard);
     } else {
-        box.appendChild(draggedItem);
+        box.insertBefore(draggingCard, afterElement);
     }
 }
 
+// تابع کمکی بدون تغییر باقی ماند
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll('.team-card:not(.dragging)')];
 
@@ -84,8 +118,10 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
+// ✅ اجرای savePredictions هنگام رها کردن (Drop)
 function handleDrop(e) {
     e.preventDefault();
+    savePredictions(); // ذخیره پیش‌بینی بعد از جابجایی
 }
 
 function updateRanks() {
