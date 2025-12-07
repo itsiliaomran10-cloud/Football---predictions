@@ -97,7 +97,7 @@ function updateRanks() {
         const rankNumberSpan = card.querySelector(".rank-number");
         const medalIconSpan = card.querySelector(".medal-icon");
 
-        rankNumberSpan.classList.remove('rank-champions-border', 'rank-europa-border', 'rank-relegation-border');
+        rankNumberSpan.classList.remove('rank-champions-dark-border', 'rank-europa-light-border', 'rank-relegation-dark-border');
         medalIconSpan.innerHTML = "";
         
         const leagueLength = leagues[currentLeague].length;
@@ -108,20 +108,20 @@ function updateRanks() {
 
         if (leagueLength === 20) {
             if (rank <= 4) {
-                rankNumberSpan.classList.add('rank-champions-border');
+                rankNumberSpan.classList.add('rank-champions-dark-border'); // 1-4: Dark Green
             } else if (rank === 5) {
-                rankNumberSpan.classList.add('rank-europa-border');
-            } else if (rank >= 18) { 
-                rankNumberSpan.classList.add('rank-relegation-border');
+                rankNumberSpan.classList.add('rank-europa-light-border'); // 5: Light Green
+            } else if (rank >= 18) { // Last 3 spots: 18, 19, 20
+                rankNumberSpan.classList.add('rank-relegation-dark-border'); // Last 3: Dark Red
             }
         } 
         else if (leagueLength === 18) {
             if (rank <= 4) {
-                rankNumberSpan.classList.add('rank-champions-border'); 
+                rankNumberSpan.classList.add('rank-champions-dark-border'); // 1-4: Dark Green
             } else if (rank === 5) {
-                rankNumberSpan.classList.add('rank-europa-border'); 
-            } else if (rank >= 16) { 
-                 rankNumberSpan.classList.add('rank-relegation-border'); 
+                rankNumberSpan.classList.add('rank-europa-light-border'); // 5: Light Green
+            } else if (rank >= 16) { // Last 3 spots: 16, 17, 18
+                 rankNumberSpan.classList.add('rank-relegation-dark-border'); // Last 3: Dark Red
             }
         }
     });
@@ -148,8 +148,8 @@ function loadLeague(league) {
         card.innerHTML = `
             <span class="rank-number">${index + 1}</span>
             <img src="${logoSrc}" alt="${team} Logo" class="team-logo" onerror="this.style.display='none'">
-            <strong>${team}</strong>
             <span class="medal-icon"></span> 
+            <strong>${team}</strong>
             <span class="drag-handle">≡</span>
         `;
         
