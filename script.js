@@ -33,22 +33,19 @@ function resetPredictions() {
     }
 }
 
-// ✅ تابع savePredictions برای ذخیره در Local Storage و Firebase
 function savePredictions() {
     const predictorName = document.getElementById('predictor-name').value.trim();
     
     if (!predictorName) {
-        alert("لطفاً نام یا آیدی اینستاگرام خود را وارد کنید.");
+        alert("name:iliaomran");
         return;
     }
 
     const teamElements = Array.from(container.querySelectorAll(".team-card"));
     const currentOrder = teamElements.map(card => card.dataset.team);
     
-    // Local Storage Save
     localStorage.setItem(`predictions_${currentLeague}`, JSON.stringify(currentOrder));
 
-    // Firebase Save (با فرض اینکه window.db و توابع آن در index.html تعریف شده‌اند)
     const predictionData = {
         name: predictorName,
         league: currentLeague,
@@ -66,13 +63,11 @@ function savePredictions() {
         });
 }
 
-// ✅ رفع پرش صفحه با اضافه کردن nameInput.blur()
 function handleDragStart(e) {
     draggedItem = e.target;
     e.dataTransfer.effectAllowed = "move";
     e.target.classList.add("dragging");
     
-    // ✅ FIX: حذف فوکوس از فیلد نام
     const nameInput = document.getElementById('predictor-name');
     if (nameInput) {
         nameInput.blur(); 
@@ -85,7 +80,6 @@ function handleDragEnd(e) {
     updateRanks();
 }
 
-// ✅ منطق DragOver ساده و پایدار (برخلاف نسخه‌ای که مشکل ایجاد کرد)
 function handleDragOver(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
@@ -103,7 +97,6 @@ function handleDragOver(e) {
     }
 }
 
-// تابع کمکی بدون تغییر باقی ماند
 function getDragAfterElement(container, y) {
     const draggableElements = [...container.querySelectorAll('.team-card:not(.dragging)')];
 
@@ -118,10 +111,9 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-// ✅ اجرای savePredictions هنگام رها کردن (Drop)
 function handleDrop(e) {
     e.preventDefault();
-    savePredictions(); // ذخیره پیش‌بینی بعد از جابجایی
+    savePredictions(); 
 }
 
 function updateRanks() {
