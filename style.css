@@ -15,19 +15,19 @@ h1 {
 .tabs {
     display: flex;
     justify-content: center;
-    gap: 6px; /* کاهش فاصله بین تب‌ها */
+    gap: 6px; 
     margin-bottom: 15px;
     flex-wrap: wrap;
     padding: 0 5px;
 }
 
 .tab-btn {
-    padding: 7px 12px; /* فشرده‌سازی دکمه‌ها */
+    padding: 7px 12px;
     border-radius: 6px;
     border: 2px solid transparent;
     background: #f8f9fa;
     cursor: pointer;
-    font-size: 0.85rem; /* کوچک‌تر شدن فونت تب‌ها */
+    font-size: 0.85rem;
     transition: all 0.2s;
     flex-grow: 1;
     max-width: 120px;
@@ -55,12 +55,12 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px; /* کاهش padding */
-    margin-bottom: 3px; /* کاهش margin */
+    padding: 10px;
+    margin-bottom: 3px;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     transition: transform 0.2s, box-shadow 0.2s;
-    font-size: 0.95rem; /* کوچک شدن متن اصلی */
+    font-size: 0.95rem;
     font-weight: 600;
     color: black;
     border: none;
@@ -80,23 +80,23 @@ h1 {
 
 .drag-handle {
     cursor: grab;
-    font-size: 1.4rem; /* کمی کوچک‌تر شد */
+    font-size: 1.4rem;
     color: #6c757d;
 }
 
 .rank-number {
-    font-size: 1.1rem; /* کاهش فونت رتبه */
+    font-size: 1.1rem;
     font-weight: 900;
-    width: 25px; /* کاهش عرض */
+    width: 25px;
     text-align: center;
-    margin-right: 10px; /* کاهش فاصله */
+    margin-right: 10px; 
 }
 
 /* Logo Styling */
 .team-logo {
-    width: 25px; /* کاهش اندازه لوگو */
+    width: 25px; 
     height: 25px;
-    margin-right: 10px; /* کاهش فاصله */
+    margin-right: 10px;
     object-fit: contain; 
     vertical-align: middle;
 }
@@ -108,11 +108,36 @@ h1 {
 .bundesliga { background: #b30000; color: white; } 
 .ligue1 { background: #000; color: white; }
 
+
+/* --- Rank Highlighting Classes --- */
+.rank-champions {
+    background-color: #d4edda !important;
+    border-left: 5px solid #28a745 !important;
+}
+
+.rank-europa {
+    background-color: #cce5ff !important;
+    border-left: 5px solid #007bff !important;
+}
+
+.rank-relegation {
+    background-color: #f8d7da !important;
+    border-left: 5px solid #dc3545 !important;
+}
+
 #save-btn {
     max-width: 600px;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 15px; /* کاهش padding */
+    padding: 10px 15px;
     font-size: 0.95rem;
     margin-top: 15px !important;
+}
+
+#reset-btn {
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    font-size: 0.95rem;
 }
