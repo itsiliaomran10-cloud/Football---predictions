@@ -8,8 +8,8 @@ const leagues = {
     // لیست نهایی شده Serie A (با جایگزینی Sassuolo، Pisa، Cremonese)
     seriea: ["Atalanta","Bologna","Cagliari","Como","Sassuolo","Fiorentina","Genoa","Inter","Juventus","Lazio","Lecce","Milan","Pisa","Napoli","Cremonese","Roma","Torino","Udinese","Parma","Hellas Verona"],
     
-    // لیست نهایی شده Bundesliga (با جایگزینی HSV)
-    bundesliga: ["Augsburg","Bayern","Bochum","HSV","Dortmund","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","St. Pauli","Union Berlin","Werder Bremen","Wolfsburg"],
+    //
+    bundesliga: ["Augsburg","Bayern","HSV","Dortmund","Eintracht Frankfurt","Freiburg","Heidenheim","Hoffenheim","Mainz","Mönchengladbach","Stuttgart","Leipzig","Leverkusen","St. Pauli","Union Berlin","Werder Bremen","Wolfsburg"],
     
     // لیست نهایی شده Ligue 1 (با جایگزینی Paris، Metz، St Etienne)
     ligue1: ["Angers","Auxerre","Brest","Clermont","Le Havre","Lens","Lille","Lorient","Lyon","Marseille","Monaco","Nantes","Nice","PSG","Rennes", "Paris", "Metz", "St Etienne"],
