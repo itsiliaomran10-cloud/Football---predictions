@@ -12,9 +12,55 @@ const leagues = {
 
 const container = document.getElementById("tables-container");
 const saveBtn = document.getElementById("save-btn");
+const countdownElement = document.getElementById("countdown-timer"); // عنصر شمارشگر
 let resetBtn; 
 let currentLeague = "premier";
 let draggedItem = null;
+
+// --- منطق شمارشگر معکوس ---
+const deadline = new Date("January 1, 2026 00:00:00").getTime();
+
+function startCountdown() {
+    const now = new Date().getTime();
+    const distance = deadline - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // نمایش زمان
+    if (countdownElement) {
+        countdownElement.innerHTML = `DEADLINE: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    // اگر زمان تمام شده باشد
+    if (distance < 0) {
+        clearInterval(window.countdownInterval);
+        if (countdownElement) {
+            countdownElement.innerHTML = "Submissions Closed!";
+        }
+        
+        // غیرفعال کردن دکمه‌ها و فیلد ورودی
+        if (saveBtn) {
+            saveBtn.disabled = true;
+            saveBtn.textContent = "Submissions Closed";
+            saveBtn.style.backgroundColor = "#6c757d";
+        }
+        if (resetBtn) {
+            resetBtn.disabled = true;
+        }
+        const nameInput = document.getElementById('predictor-name');
+        if (nameInput) {
+            nameInput.disabled = true;
+        }
+    }
+}
+
+// شروع شمارشگر و به‌روزرسانی آن هر ثانیه
+window.countdownInterval = setInterval(startCountdown, 1000);
+// ------------------------------------
+
 
 function getTeamLogoSrc(teamName) {
     const fileName = teamName.replace(/\s/g, ''); 
@@ -34,10 +80,15 @@ function resetPredictions() {
 }
 
 function savePredictions() {
+    // بررسی مجدد زمان قبل از ذخیره
+    if (new Date().getTime() > deadline) {
+        alert("Submissions are closed. The deadline has passed.");
+        return;
+    }
+    
     const predictorName = document.getElementById('predictor-name').value.trim();
     
     if (!predictorName) {
-        // پیام اخطار انگلیسی
         alert("Please enter your name or Instagram ID.");
         return;
     }
@@ -47,7 +98,6 @@ function savePredictions() {
     
     localStorage.setItem(`predictions_${currentLeague}`, JSON.stringify(currentOrder));
 
-    // ذخیره‌سازی در Firebase
     const predictionData = {
         name: predictorName,
         league: currentLeague,
@@ -57,12 +107,10 @@ function savePredictions() {
 
     window.addDoc(window.collection(window.db, "predictions"), predictionData)
         .then(() => {
-            // پیام موفقیت انگلیسی
             alert(`Prediction by ${predictorName} for ${currentLeague.toUpperCase()} successfully saved!`);
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
-            // پیام خطای انگلیسی
             alert("Error saving prediction. Please try again.");
         });
 }
@@ -71,6 +119,12 @@ function handleDragStart(e) {
     draggedItem = e.target;
     e.dataTransfer.effectAllowed = "move";
     e.target.classList.add("dragging");
+    
+    // اطمینان از غیرفعال نبودن درگ در صورت پایان زمان
+    if (new Date().getTime() > deadline) {
+        e.preventDefault(); 
+        return;
+    }
     
     const nameInput = document.getElementById('predictor-name');
     if (nameInput) {
@@ -86,6 +140,8 @@ function handleDragEnd(e) {
 
 function handleDragOver(e) {
     e.preventDefault();
+    if (new Date().getTime() > deadline) return; // جلوگیری از درگ پس از پایان زمان
+    
     e.dataTransfer.dropEffect = "move";
     
     const box = container.querySelector(".table-box");
@@ -117,7 +173,9 @@ function getDragAfterElement(container, y) {
 
 function handleDrop(e) {
     e.preventDefault();
-    savePredictions(); 
+    if (new Date().getTime() <= deadline) {
+        savePredictions(); 
+    }
 }
 
 function updateRanks() {
@@ -217,4 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     loadLeague("premier");
+    
+    // ✅ شروع شمارشگر هنگام بارگذاری صفحه
+    startCountdown(); 
 });
