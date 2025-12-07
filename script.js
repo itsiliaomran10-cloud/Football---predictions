@@ -4,10 +4,11 @@ const teamData = {
     premier: ["Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton & Hove Albion", "Burnley", "Chelsea", "Crystal Palace", "Everton", "Fulham", "Liverpool", "Luton Town", "Manchester City", "Manchester United", "Newcastle United", "Nottingham Forest", "Sheffield United", "Tottenham Hotspur", "West Ham United", "Wolverhampton Wanderers"],
     laliga: ["Alavés", "Athletic Bilbao", "Atlético Madrid", "Barcelona", "Cádiz", "Celta Vigo", "Getafe", "Girona", "Granada", "Las Palmas", "Mallorca", "Osasuna", "Rayo Vallecano", "Real Madrid", "Real Sociedad", "Sevilla", "Valencia", "Villarreal", "Real Betis", "Eibar"],
     seriea: ["Atalanta", "Bologna", "Cagliari", "Empoli", "Fiorentina", "Frosinone", "Genoa", "Inter Milan", "Juventus", "Lazio", "Lecce", "AC Milan", "Monza", "Napoli", "Roma", "Salernitana", "Sassuolo", "Torino", "Udinese", "Verona"],
-    bundesliga: ["Augsburg", "Bayern Munich", "StPauli", "Borussia Dortmund", "Eintracht Frankfurt", "Freiburg", "Heidenheim", "Hoffenheim", "Köln", "Leipzig", "Bayer Leverkusen", "Mainz 05", "Borussia Mönchengladbach", "RB Leipzig", "Stuttgart", "Werder Bremen", "Union Berlin", "Wolfsburg"],
+    bundesliga: ["Augsburg", "Bayern Munich", "Bochum", "Borussia Dortmund", "Eintracht Frankfurt", "Freiburg", "Heidenheim", "Hoffenheim", "Köln", "Leipzig", "Bayer Leverkusen", "Mainz 05", "Borussia Mönchengladbach", "RB Leipzig", "Stuttgart", "Werder Bremen", "Union Berlin", "Wolfsburg"],
     ligue1: ["Brest", "Clermont Foot", "Le Havre", "Lille", "Lorient", "Lyon", "Marseille", "Montpellier", "Nantes", "Nice", "Monaco", "Paris Saint-Germain", "Strasbourg", "Rennes", "Reims", "Saint-Étienne", "Toulouse", "Metz"]
 };
 
+// --- Initialization of DOM elements ---
 const container = document.getElementById('tables-container');
 const tabButtons = document.querySelectorAll('.tab-btn');
 const saveBtn = document.getElementById('save-btn');
@@ -57,7 +58,7 @@ function loadLeague(league) {
 }
 
 function resetPredictions() {
-    if (confirm("آیا مطمئن هستید که می‌خواهید رتبه‌بندی فعلی را ریست کنید؟")) {
+    if (confirm("Are you sure you want to reset the " + currentLeague.toUpperCase() + " predictions?")) {
         localStorage.removeItem(`predictions_${currentLeague}`);
         loadLeague(currentLeague);
     }
@@ -69,7 +70,7 @@ function savePredictions() {
     const predictorName = document.getElementById('predictor-name').value.trim();
 
     if (!predictorName) {
-        alert("iliaomran10");
+        alert("لطفاً نام یا آیدی اینستاگرام خود را وارد کنید.");
         return;
     }
 
@@ -101,7 +102,6 @@ container.addEventListener('dragstart', (e) => {
     if (e.target.classList.contains('team-card')) {
         e.target.classList.add('dragging');
         
-        // Fix for unwanted scroll: blur the name input field
         const nameInput = document.getElementById('predictor-name');
         if (nameInput) {
             nameInput.blur();
