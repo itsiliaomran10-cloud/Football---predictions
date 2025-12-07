@@ -18,6 +18,6 @@ The colored border around the team's rank indicates the significance of that pos
 
 | Color | Zone | Meaning |
 | :---: | :--- | :--- |
-| <div style="width:15px; height:15px; background-color:#006400; border-radius:50%; display:inline-block;"></div> | Champions League | Top continental competition. |
-| <div style="width:15px; height:15px; background-color:#90ee90; border-radius:50%; display:inline-block;"></div> | Europa League | Secondary continental competition. |
-| <div style="width:15px; height:15px; background-color:#8b0000; border-radius:50%; display:inline-block;"></div> | Relegation Zone | Danger of dropping to a lower division. |
+| <span style="background-color:#006400; color:white; padding: 2px 5px; border-radius:3px; font-weight:bold;">CHAMPIONS</span> | Champions League | Top continental competition. |
+| <span style="background-color:#90ee90; color:black; padding: 2px 5px; border-radius:3px; font-weight:bold;">EUROPA</span> | Europa League | Secondary continental competition. |
+| <span style="background-color:#8b0000; color:white; padding: 2px 5px; border-radius:3px; font-weight:bold;">RELEGATION</span> | Relegation Zone | Danger of dropping to a lower division. |
