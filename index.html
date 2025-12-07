@@ -39,9 +39,10 @@
         </a>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
-
+    <script type="module">
+  // 1. ایمپورت توابع ضروری دیتابیس (Firestore)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 const firebaseConfig = {
     apiKey: "AIzaSyABu613k8dIDsiq0LggYdPdNi7QccpCzf4",
     authDomain: "football-predictions-61611.firebaseapp.com",
@@ -54,7 +55,10 @@ const firebaseConfig = {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  window.db = getFirestore(app);
+window.addDoc = addDoc;
+window.collection = collection;
+window.serverTimestamp = serverTimestamp;
 </script>
 <script src="script.js"></script>
 </body>
