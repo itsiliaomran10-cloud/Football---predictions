@@ -27,6 +27,7 @@ function getSavedPredictions(league) {
 }
 
 function resetPredictions() {
+    // 🇬🇧 Changed Reset Confirmation to English
     if (confirm(`Are you sure you want to reset the ${currentLeague.toUpperCase()} predictions?`)) {
         localStorage.removeItem(`predictions_${currentLeague}`);
         loadLeague(currentLeague); 
@@ -37,7 +38,8 @@ function savePredictions() {
     const predictorName = document.getElementById('predictor-name').value.trim();
     
     if (!predictorName) {
-        alert("Please.enter.your.name");
+        // 🇬🇧 Changed Alert message to English
+        alert("Please enter your name or Instagram ID.");
         return;
     }
 
@@ -55,11 +57,13 @@ function savePredictions() {
 
     window.addDoc(window.collection(window.db, "predictions"), predictionData)
         .then(() => {
-            alert(`پیش‌بینی ${predictorName} برای ${currentLeague.toUpperCase()} با موفقیت ثبت شد!`);
+            // 🇬🇧 Changed Success message to English
+            alert(`Prediction by ${predictorName} for ${currentLeague.toUpperCase()} successfully saved!`);
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
-            alert("خطا در ثبت پیش‌بینی. لطفاً دوباره تلاش کنید.");
+            // 🇬🇧 Changed Error message to English
+            alert("Error saving prediction. Please try again.");
         });
 }
 
