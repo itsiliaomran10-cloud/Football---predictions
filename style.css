@@ -220,3 +220,27 @@ h1 {
     padding: 10px 15px;
     font-size: 0.95rem;
 }
+/* Styling for the Name Input Field */
+.name-input-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto 10px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+#predictor-name {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    text-align: center; 
+}
+
+#predictor-name:focus {
+    border-color: #007bff;
+    outline: none;
+}
